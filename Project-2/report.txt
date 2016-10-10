@@ -1,0 +1,19 @@
+a. I didn't encounter any problem and obstacles when I worte down the program.
+Just a little confusion: 
+From the version of vs2013 and above I can't use the function scanf unless I turn off the SDL.
+However, there still would be a warning after I used the scanf.
+But I can successfully compile my code in G++ without any warning and error.
+
+b.
+check for the error();
+check for the error(International Hotel Waikiki,-1);
+check for the error(International Hotel Waikiki,48,);
+Example(International Hotel Waikiki,48,USA);
+Example(International Golf Club Dubai,55,UAE);
+Minimum charge(A,0,A);
+For the general case which the revenue below 20(A,1,A);
+For the general case which the revenue above 20 but below 50(A,21,A);
+For the general case which the revenue above 50(A,51,A);
+For the special case which the revenue below 20(A,1,Turkey);
+For the special case which the revenue above 20 but below 50(A,21,Turkey);
+For the special case which the revenue above 50(A,51,UAE);
