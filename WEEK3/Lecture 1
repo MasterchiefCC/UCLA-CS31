@@ -9,3 +9,21 @@ cout<<"choice must be1 through 5"<<endl;
 return 1;
  }
 }
+
+
+Switch(choice){
+case 1;
+statement;
+break;
+case 2:
+case 4:
+statement;
+break;
+case 3:
+case 5:
+statement；
+break;
+default:{
+cout<<"choice must be1 through 5"<<endl;
+return 1;
+}
