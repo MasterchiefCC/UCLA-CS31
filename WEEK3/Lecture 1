@@ -29,7 +29,7 @@ return 1;
 }
 
 //switch maybe faster than if-else, if there are lots of branches in the program.
-/*switch only can work with judgement statements only contain the constant;
+/*switch only can work with condition only contains the constant;
 neither the string nor the double can be applied*/
 
 ----------------------------------------------------------------------------------------------------------------------------------------
@@ -43,5 +43,11 @@ cout<<"Hello"<<endl;
 n=n+1;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int n=1;
+do{
+cout<<"Hello"<<endl;
+n++}whiel(n<=nTime);
 
 ----------------------------------------------------------------------------------------------------------------------------------------
