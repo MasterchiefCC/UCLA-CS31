@@ -50,4 +50,7 @@ do{
 cout<<"Hello"<<endl;
 n++}whiel(n<=nTime);
 
+for(initialization; stay-in-loop-condition; prepare-for-next-iteration)
+statement;
+
 ----------------------------------------------------------------------------------------------------------------------------------------
