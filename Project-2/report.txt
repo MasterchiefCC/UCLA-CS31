@@ -1,7 +1,7 @@
 a. I didn't encounter any problem and obstacles when I worte down the program.
 Just a little confusion: 
 From the version of vs2013 and above I can't use the function scanf unless I turn off the SDL.
-However, there still would be a warning after I used the scanf.
+There still would be a warning after I used the scanf£¬ if I turn off the SDL.
 But I can successfully compile my code in G++ without any warning and error.
 
 b.

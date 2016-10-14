@@ -3,10 +3,11 @@ endlendl
 grendel
 
 2
-This program prints right triangle 
+This program prints isosceles right triangle
+(if we consider in the console application the sign # is a sign with equal height and width)
 with the height of the variable side which is inputed after the program is executed
 and with the sign #
-
+and the bottom and the left are the legs of the right triangle
 3
 #include <iostream>
 using namespace std;
@@ -28,6 +29,9 @@ int main() {
 }
 
 4
+#include <iostream>
+using namespace std;
+
 int main() {
 	int side;
 	scanf("%d", &side);
