@@ -81,8 +81,27 @@ int main(){
 int n;
 cin>>n;
 greet(2*n+2, "Ni Hao");
-cin.ignore()
+cin.ignore(10000,'\n');
 string MyMessage;
 getline(cin, MyMessage);
 greet(1, MyMessage);
 }
+
+--------------------------------------------------------------
+
+int square(int k){
+return k*k;
+}
+
+void greet(int time, string msg){
+for(int k=1; k<=time; k++)
+cout<<msg<<endl;
+}
+
+int main(){
+int x= sqare(2);
+int y=3*square(x+1)+2;
+greet(square(x), "Salaam");
+
+}
+
