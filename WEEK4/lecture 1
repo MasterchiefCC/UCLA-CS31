@@ -1,1 +1,88 @@
-1
+int main(){
+...
+...
+for(int k=1; k<=3; k++)
+cout<<"Hello"<<endl;
+...
+...
+for(int k=1; k<=3; k++)
+cout<<"Hello"<<endl;
+...
+...
+for(int k=1; k<=3; k++)
+cout<<"Hello"<<endl;
+...
+...
+}
+
+//////////////////////////////////////////////////////////////
+
+void greet(){
+for(int k=1; k<=3; k++)
+cout<<"Hello"<<endl;
+}
+
+int main(){
+greet();
+...
+...
+greet();
+...
+...
+greet();
+...
+...
+}
+
+//////////////////////////////////////////////////////////////
+
+void greet();//function prototype
+
+int main(){
+greet();
+...
+...
+greet();
+...
+...
+greet();
+...
+...
+}
+
+void greet(){
+for(int k=1; k<=3; k++)
+cout<<"Hello"<<endl;
+}
+
+//////////////////////////////////////////////////////////////
+
+void greet(int time){
+for(int k=1; k<=time; k++)
+cout<<"Hello"<<endl;
+}
+
+int main(){
+int n;
+cin>>n;
+greet(3);
+greet(2*n+2);
+greet(1);
+}
+
+//////////////////////////////////////////////////////////////
+
+void greet(int time, string msg){
+for(int k=1; k<=time; k++)
+cout<<msg<<endl;
+}
+
+int main(){
+int n;
+cin>>n;
+greet(2*n+2, "Ni Hao");
+cin.ignore()
+string MyMessage;
+getline(cin, MyMessage);
+greet(1, MyMessage);
+}
