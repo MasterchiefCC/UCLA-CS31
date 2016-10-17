@@ -105,3 +105,23 @@ greet(square(x), "Salaam");
 
 }
 
+--------------------------------------------------------------
+
+int main(){
+cout<<"Enter a phone number:";
+string phone;
+getline(cin,phone);
+
+int number=0;
+int Phone=0;
+for(int a=0; a<phone.size(); a++){
+if（phone[a]>='0'&&phone[a]<='9'){
+number++;
+Phone=Phone*10+(phone[a]-'0')
+}
+if(number==10}
+cout<<"The digital in the phone number are"<<Phone;
+else
+cout<<"A phone number must have 10 digitals."<<endl;
+return 0;
+}
