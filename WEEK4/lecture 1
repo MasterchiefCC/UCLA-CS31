@@ -107,21 +107,54 @@ greet(square(x), "Salaam");
 
 --------------------------------------------------------------
 
-int main(){
-cout<<"Enter a phone number:";
-string phone;
-getline(cin,phone);
 
-int number=0;
-int Phone=0;
-for(int a=0; a<phone.size(); a++){
-if（phone[a]>='0'&&phone[a]<='9'){
-number++;
-Phone=Phone*10+(phone[a]-'0')
+int main() {
+	cout << "Enter a phone number:";
+	string phone;
+	getline(cin, phone);
+
+	int number = 0;
+	unsigned int Phone = 0;
+	for (int a = 0; a < phone.size(); a++) {
+		if (phone[a] >= '0'&&phone[a] <= '9')
+		number++;
+		Phone = Phone * 10 + (phone[a] - '0');
+	}
+	if (number == 10) 
+		cout << "The digital in the phone number are" << Phone<<endl;
+	else
+		cout << "A phone number must have 10 digitals." << endl;
+	return 0;
 }
-if(number==10}
-cout<<"The digital in the phone number are"<<Phone;
-else
-cout<<"A phone number must have 10 digitals."<<endl;
-return 0;
+
+//////////////////////////////////////////////////////////////
+
+bool isvalidPhoneNumber(string pn);
+string digitsOf(string pn);
+
+int main(){
+  cout << "Enter a phone number:";
+	string phone;
+	getline(cin, phone);
+  if(isvalidPhoneNumber)
+  cout<<"The digits in the phone number are<<digitOf(phone)<<endl;
+  else
+  cout<<"A phone number must have 10 digits<<endl;
+  }
+
+string digitOf(string pn){
+string digitOnly="";
+for(int k=0; k!=pn.size(); k++){
+if(isdigit(pn[k]){
+dititOnly+=pn[k];
+}
+return digitsOnly;
+}
+
+bool isvalidPhoneNumber(string pn){
+int numberofDigits=0;
+for(int k=0; k!= pn.size(); k++){
+if(isdigit(pn[k])numberofDigit++;
+}
+return (numberofDigits==10);
 }
