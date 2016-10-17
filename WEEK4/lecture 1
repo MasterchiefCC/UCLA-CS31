@@ -129,32 +129,35 @@ int main() {
 
 //////////////////////////////////////////////////////////////
 
-bool isvalidPhoneNumber(string pn);
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+bool isValidPhoneNumber(string pn);
 string digitsOf(string pn);
 
-int main(){
-  cout << "Enter a phone number:";
+int main() {
+	cout << "Enter a phone number:";
 	string phone;
 	getline(cin, phone);
-  if(isvalidPhoneNumber)
-  cout<<"The digits in the phone number are<<digitOf(phone)<<endl;
-  else
-  cout<<"A phone number must have 10 digits<<endl;
-  }
-
-string digitOf(string pn){
-string digitOnly="";
-for(int k=0; k!=pn.size(); k++){
-if(isdigit(pn[k]){
-dititOnly+=pn[k];
-}
-return digitsOnly;
+	
+	if (isValidPhoneNumber)
+		cout << "The digits in the phone number are "<<digitsOf(phone)<<endl;
+	else
+		cout << "A phone number must have 10 digits"<<endl;
 }
 
-bool isvalidPhoneNumber(string pn){
-int numberofDigits=0;
-for(int k=0; k!= pn.size(); k++){
-if(isdigit(pn[k])numberofDigit++;
+string digitsOf(string pn) {
+	string digitOnly = "";
+	for (int k = 0; k != pn.size(); k++)
+		if (isdigit(pn[k]))digitOnly += pn[k];
+	return digitOnly;
 }
-return (numberofDigits==10);
+
+	bool isValidPhoneNumber(string pn) {
+		int numberofDigits = 0;
+		for (int k = 0; k != pn.size(); k++) 
+			if (isdigit(pn[k]))numberofDigits++;
+		return (numberofDigits == 10);
 }
