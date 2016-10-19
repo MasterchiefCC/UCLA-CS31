@@ -1,0 +1,81 @@
+#include<cctype>//defines isdigit, isupper, islower, isalpha,...
+string s;
+getline(cin, s);
+if(s!="")               if(s.size()!=0)
+s[0]=toupper(s[0]);
+
+string t="a89 ？"
+char c0=toupper(t[0]);//c0 is 'A';
+char c1=toupper(t[1]);//c1 is '8';
+char c2=toupper(t[2]);//c2 is '9';
+char c3=toupper(t[3]);//c3 is ' ';
+char c4=toupper(t[4]);//c4 is '?';
+t=toupper(t)//wont complie; argument must be a char, not a string;
+
+if(t[k]=='E'||t[k]=='e')
+statements;
+if(toupper[k]=='E')
+statements;
+
+------------------------------------------------------------------
+
+#include<cmath>
+//Normally, arguments are copied into the corresponding parameters. "Call-by-value"
+//Atternatively, arguments can be passed by reference, i,e., the parameter is just another name
+//double& means reference-to-double or another-name-for-some-double
+
+void polarToCartesian(double roh, double theta, double xx, double yy);
+
+int main(){
+double r;
+double angle;
+statement;//get values for r and angle;
+
+double x;
+double y;
+statement//get value for x and y;
+double x2;
+polarToCartesian(2*r, angle, x2, y);
+
+}
+
+void polarToCartesian(double rho, double theta, double &xx, double &yy){
+xx=rho*cos(theta);
+yy=rho*sin(theta);
+//rho and theta are "passed by value" ==>copied
+//xx and yy are "pass by reference"==> A reference is just another name for an already existing object; no copy is made
+}
+
+//////////////////////////////////////////////////////////////////
+void censorDigits(string &s);
+int main(){
+cout<< "What should I censor?";
+string msg;
+getline(cin, msg);
+censorDigits(msg);
+cout<<msg<<endl;
+}
+
+void censorDigits（string &s){
+for(int a=0; a<s.size(); a++){
+if(isdigit([s[k])s[k]='*';
+}
+}
+
+////////////////////////////////////////////////////////////////
+
+string censorDigits(string msg);
+
+int main(){
+statements;
+
+cout<<censorDiigits(msg)<<endl;
+
+statement;
+}
+string( censorDigits(string msg){
+for(int a=0; a<msg.size(); a++){
+if(isdigit[k]) s[k]='*';
+return s;
+}
+
