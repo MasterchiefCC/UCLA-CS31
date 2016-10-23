@@ -18,16 +18,18 @@ bool isValidUppercaseStateCode(string stateCode)
 bool hasCorrectSyntax(string pollData) {
 	for (int a = 0; a < pollData.size(); a++) {
 		if (pollData[a] == ' ') return 0;
-	}
+	}//situation of ' '
 
 	for (int a = 0; a < pollData.size(); a++) {
 		if (isdigit(pollData[a])) {
-			if (isdigit(pollData[a + 1]))++a;
-			if (a + 1 >= pollData.size())return 0;
-			if (!isalpha(pollData[a + 1]))return 0;
+			if (isdigit(pollData[a + 1]))++a;//move to the end of digit
+			if (a + 1 >= pollData.size())return 0;//end of the string
+			if (!isalpha(pollData[a + 1]))return 0;//next position is a letter
 			if ((a + 1) == (pollData.size() - 1))break;
-			for (int k = 1; k <= 3; k++)
-				if (!isalpha(pollData[a + k]))return 0;
+			for (int k = 1; k <= 3; k++) {//if the position is not in the end of string, next three position should be letter 
+				if (!(a + k < pollData.size()) || !isalpha(pollData[a + k]))return 0;
+				if (k == 3 && !isdigit(pollData[a + k + 1]))return 0;
+			}
 		}
 	}
 
@@ -75,11 +77,8 @@ int countVotes(string pollData, char party, int& voteCount) {
 	return 0;
 }
 
-
-
-
 int main(){
-	assert(hasCorrectSyntax("TX38RCA55D"));
+	assert(!hasCorrectSyntax("CA00"));
 	assert(!hasCorrectSyntax("MX38RCA55D"));
 	assert(!hasCorrectSyntax("MX38CA55D")); 
 	assert(!hasCorrectSyntax("MX38")); 
