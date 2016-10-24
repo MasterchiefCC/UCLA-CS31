@@ -17,7 +17,8 @@ bool isValidUppercaseStateCode(string stateCode)
 
 bool hasCorrectSyntax(string pollData) {
 	for (int a = 0; a < pollData.size(); a++) {
-		if (pollData[a] == ' ') return 0;
+		if (!isdigit(pollData[a]) && !isalpha(pollData[a])) 
+			return 0;
 	}//situation of ' '
 
 	for (int a = 0; a < pollData.size(); a++) {
