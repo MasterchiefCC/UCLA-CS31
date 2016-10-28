@@ -1,0 +1,27 @@
+#include <iostream>
+#include <cassert>
+using namespace std;
+using namespace std;
+int str_to_int(string s, int &i) {
+	for (int a = 0; a < s.size(); a++) {
+		if (!isdigit(s[a]) && s[a] != '-')
+			return 1;
+	}
+	int result = 0;
+	for (int a = 0; a <s.size(); a++) {
+		if (s[a] =='-')
+			 continue;
+		result *= 10;
+		result += s[a]-'0';
+	}
+	if (s[0] == '-')result *= -1;
+	i = result;
+	return 0;
+}
+int main(){
+	int a = -999;
+	assert(str_to_int("123", a) == 0 && a == 123);
+	assert(str_to_int("12a3", a) == 1);
+	assert(str_to_int("-903", a) == 0 && a == -903);
+	printf("WAHT\n");
+}
