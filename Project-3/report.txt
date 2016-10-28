@@ -1,0 +1,64 @@
+a
+I didn't encounter any problem and obstacles when I worte down the program.
+
+b
+Function isValidUppercaseStateCode;
+gaven by the website;
+
+Function hasCorrectSyntax;
+input a string;
+a loop
+if appear the the char of ' ' stop loop; function;
+return 0;
+a loop make sure there is a letter after the digit.
+if the digit appear;
+dectect next postion is a digit;
+detect whether is in the end of string;
+if the position is in the end of string; 
+return 0;
+if the next postion is not a letter; 
+return 0;
+if the next postion is in the end of string; 
+stop loop;
+if one of next three postions are not letters or the fourth postion is not a digit; 
+return 0;
+next round;
+
+a loop
+if a letter apper and the postion of that letter is not in the end of the string
+input to a string and using the function isValidUppercaseStaeCode to check;
+if the string is not a statecode return 0;
+
+after check return 1;
+
+Function countVotes
+the string input is not a correct poll string return 1;
+a loop check the appearance of '0'
+if the '0'occur, 
+if the next postion if a '0' or a letter;
+return 2;
+if the varible party is not letter return 3;
+a loop
+if a digit occur;
+check the next postion whether is a digit;
+if the party is similar with the the char in string;
+if is put it into result;
+
+c
+to function hasCorrectSyntax
+CA1             without party code
+CD1D            not valid state code
+AL38CA55D       not valid party in the string
+AL38MX55D       not valid state code in the string
+AL38D55         missing state code in string
+AL38DCA5        without party code
+Ca1d            valid code
+cA1dal38lak40r  valid code
+cA1dal 38lak40r with space
+
+to function countVotes
+("TX38RCA55DMs6rnY29dUT06Lar3dak03d", 'd', votes) valid code with output 0 and change the value of votes to 90
+("TX00RCA55D", 'd', votes) case 1 of "0" type error
+("TX0RCA55D", 'd', votes)  case 2 of "0" type error
+("TX38RCA55D", '%', votes) not valid party code
+
