@@ -16,36 +16,34 @@ bool isValidUppercaseStateCode(string stateCode)
 }
 
 bool hasCorrectSyntax(string pollData) {
+	if (pollData.size() < 4) return 0;
 	for (int a = 0; a < pollData.size(); a++) {
-		if (!isdigit(pollData[a]) && !isalpha(pollData[a])) 
+		if (!isdigit(pollData[a]) && !isalpha(pollData[a]))
 			return 0;
-	}//situation of ' '
 
-	for (int a = 0; a < pollData.size(); a++) {
-		if (isdigit(pollData[a])) {
-			if (a+1<pollData.size()&&isdigit(pollData[a + 1]))++a;//move to the end of digit
-			if (a + 1 >= pollData.size())return 0;//end of the string
-			if (toupper(pollData[a+1]) != 'D'&&toupper(pollData[a+1]) != 'R'&&toupper(pollData[a+1]) != 'L'&&toupper(pollData[a+1]) != 'G')return 0;//next position is a letter
-			if ((a + 1) == (pollData.size() - 1))break;
-			for (int k = 1; k <= 3; k++) {//if the position is not in the end of string, next three position should be letter 
-				if (!(a + k < pollData.size()) || !isalpha(pollData[a + k]))return 0;
-				if(k==3)
-					if ((a + k + 1 )>= pollData.size() || !isdigit(pollData[a + k + 1]))return 0;
-			}
-		}
-	}
-
-	for (int a = 0; a < pollData.size(); a++) {//Judge the char whether is a valid state code
-		if (isalpha(pollData[a]) && a + 1 < pollData.size()) {
-			if (isalpha(pollData[a + 1]) && isdigit(pollData[a + 2])){
+		if (isalpha(pollData[a]) && a + 1 < pollData.size()) {//test valid state code
+			if (isalpha(pollData[a + 1]) && isdigit(pollData[a + 2])) {
 				string state;
 				state += toupper(pollData[a]);
 				state += toupper(pollData[a + 1]);
 				if (!isValidUppercaseStateCode(state)) return 0;
 			}
 		}
+
+
+		if (isdigit(pollData[a])) {
+			if (a + 1 < pollData.size() && isdigit(pollData[a + 1]))++a;//move to the end of digit
+			if (a + 1 >= pollData.size())return 0;//end of the string
+			if (!isalpha(pollData[a+1]))return 0;//next position is a letter
+			if ((a + 1) == (pollData.size() - 1))break;
+			for (int k = 1; k <= 3; k++) {//if the position is not in the end of string, next three position should be letter 
+				if (!(a + k < pollData.size()) || !isalpha(pollData[a + k]))return 0;
+				if (k == 3)
+					if ((a + k + 1) >= pollData.size() || !isdigit(pollData[a + k + 1]))return 0;
+			}
+		}
 	}
-	
+
 	return 1;
 }
 
@@ -81,15 +79,21 @@ int countVotes(string pollData, char party, int& voteCount) {
 }
 
 int main(){
-	assert(!hasCorrectSyntax("CA55DAL"));
-	assert(!hasCorrectSyntax("MX38RCA55D"));
-	assert(!hasCorrectSyntax("MX38CA55D")); 
-	assert(!hasCorrectSyntax("MX38")); 
-	assert(!hasCorrectSyntax("MX 38"));
+	assert(!hasCorrectSyntax("CA1"));
+	assert(!hasCorrectSyntax("CD1D"));
+	assert(!hasCorrectSyntax("AL38CA55D")); 
+	assert(!hasCorrectSyntax("AL38DCa5"));
+	assert(hasCorrectSyntax("Ca1d"));
+	assert(hasCorrectSyntax("ny29dtx38rhi4d"));
+	assert(!hasCorrectSyntax("cA1dal 38lak40r"));
 	int votes;
-	votes = -999;    // so we can detect whether countVotes sets votes
-	assert(countVotes("TX38RCA55DMs6rnY29dUT06L", 'd', votes) == 0 && votes == 84);
-	votes = -999;    // so we can detect whether countVotes sets votes
+	votes = -999;  
+	assert(countVotes("TX38RCA55DMs6rnY29dUT06Lar3dak03d", 'd', votes) == 0 && votes == 90);
+	votes = -999;  
+	assert(countVotes("TX38RCA55D", '%', votes) == 3 && votes == -999);
+	assert(countVotes("TX00RCA55D", 'd', votes) == 2 && votes == -999);
+	assert(countVotes("TX0RCA55D", 'd', votes) == 2 && votes == -999);
+	assert(countVotes("TX38RCA55D", '%', votes) == 3 && votes == -999);
 	assert(countVotes("TX38RCA55D", '%', votes) == 3 && votes == -999);
 	cout << "All tests succeeded" << endl;
 }
