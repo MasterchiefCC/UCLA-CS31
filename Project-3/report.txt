@@ -46,19 +46,20 @@ if is put it into result;
 
 c
 to function hasCorrectSyntax
-CA1             without party code
-CD1D            not valid state code
-AL38CA55D       not valid party in the string
-AL38MX55D       not valid state code in the string
-AL38D55         missing state code in string
-AL38DCA5        without party code
-Ca1d            valid code
-cA1dal38lak40r  valid code
-cA1dal 38lak40r with space
+C11D              without valid state code
+CA11              without party code
+CA11DTX           without number
+CA11TX3D          whitout party code
+CD1D              without valid state code        
+AL38DCa5          without party code
+Ca1d              valid poll string
+ny29dtx38rhi4d    valid poll string
+cA1dal 38lak40r   with space
+asdfdfsf          without anything
 
 to function countVotes
 ("TX38RCA55DMs6rnY29dUT06Lar3dak03d", 'd', votes) valid code with output 0 and change the value of votes to 90
 ("TX00RCA55D", 'd', votes) case 1 of "0" type error
 ("TX0RCA55D", 'd', votes)  case 2 of "0" type error
 ("TX38RCA55D", '%', votes) not valid party code
-
+("", 'd', votes)           valid
