@@ -1,0 +1,11 @@
+string t="Hello"
+string s;
+for(int k=0; k!=t.size(); k++)
+cout <<t[k]<<endl;
+
+cout<<t;
+getline(cin,s);
+s=t; //set s to hello
+s+="!!!";
+if(t<s)
+
