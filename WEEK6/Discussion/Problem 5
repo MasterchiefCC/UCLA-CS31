@@ -1,0 +1,33 @@
+
+
+#include<stdio.h>
+#include<string.h>
+#include<iostream>
+using namespace std;
+
+void sort_array(int arr[], int size) {
+	for (int a = 0; a < size; a++) {
+		int i = a;
+		for (int z = a; z < size  ; z++) {
+			if (arr[z] < arr[i])i = z;
+		}
+		if (i != a) {
+			int buf = arr[i];
+			for (int q = i-1; q >= a; q--) 
+				arr[q+1] = arr[q];
+			arr[a] = buf;
+		}
+	}
+}
+
+
+int main() {
+	int a[] = { 4, 11, -1, 5 };
+	sort_array(a, 4);
+	std::cout << a[0] << " " << a[1] << " " << a[2] << " " << a[3] << " " << "\n";
+
+
+
+	return 0;
+
+}
