@@ -1,0 +1,36 @@
+double*p=nullptr;
+double*q;
+if(p==nullptr)//true
+if(q==nullptr)//undefined behavior
+
+//C and C++11
+if(p!=NULL)
+if(p!=0)
+if(p!=nullptr)
+
+-----------------------------------------------------------------------------
+
+struct employee{
+string name;
+int age;
+double salary;
+};//<==don't forget the semicolon;
+
+int main(){
+employee e1;
+employee e2;
+e1.name="Fred";
+e1.age=47;
+e1.salary=60000;
+
+cout<<"Enter a name";
+genline(cin, e2.name);
+cout<<"Enter a salary:";
+cin>>e2.salary;
+
+employee company[100];
+//...
+for(int k=0; k!=company[2].name.size(); k++)
+cout<<company[2].name[k]<<endl;
+
+}
