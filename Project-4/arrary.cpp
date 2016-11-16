@@ -2,13 +2,14 @@
 #include <string>
 #include<cctype>
 #include <cassert>
+#include <algorithm>
 using namespace std;
 
 int appendToAll(string a[], int n, string value) {
 	if (n < 0)return -1;
 	int len = value.size();
-	for (int q = 0; q < n; q++) 
-		for (int k = 0; k < len; k++) 
+	for (int q = 0; q < n; q++)
+		for (int k = 0; k < len; k++)
 			a[q] += value[k];
 	return n;
 }
@@ -21,16 +22,16 @@ int lookup(const string a[], int n, string target) {
 		for (k = 0; k < target.size(); k++) {
 			if (a[q][k] != target[k])break;
 		}
-		if (k == target.size())return q;		
+		if (k == target.size())return q;
 	}
 	return -1;
 }
 
-int positionOfMax(const string a[], int n) { 
+int positionOfMax(const string a[], int n) {
 	if (n <= 0) return -1;
-	int pos = 0;  
-	for (int i = 0; i < n; i++) { 
-		if (a[i] > a[pos]) { 
+	int pos = 0;
+	for (int i = 0; i < n; i++) {
+		if (a[i] > a[pos]) {
 			pos = i;
 		}
 	}
@@ -38,7 +39,7 @@ int positionOfMax(const string a[], int n) {
 }
 
 int rotateLeft(string a[], int n, int pos) {
-	if (n < 0||pos<0|| pos >= n)return -1;
+	if (n < 0 || pos < 0 || pos >= n)return -1;
 
 	string buf = a[pos];
 	for (int k = pos; k + 1 < n; k++)
@@ -60,7 +61,7 @@ int countRuns(const string a[], int n) {
 int flip(string a[], int n) {
 	if (n < 0)return -1;
 	if (n == 0)return 0;
-	for (int k = 0; k <= (n-1) / 2; k++) {
+	for (int k = 0; k <= (n - 1) / 2; k++) {
 		string buf = a[k];
 		a[k] = a[n - k - 1];
 		a[n - k - 1] = buf;
@@ -70,7 +71,7 @@ int flip(string a[], int n) {
 
 int differ(const string a1[], int n1, const string a2[], int n2) {
 	if (n1 < 0 || n2 < 0)return -1;
-	int len,pos;
+	int len, pos;
 	if (n1 > n2)len = n2;
 	else len = n1;
 	for (pos = 0; pos < len; pos++) {
@@ -80,7 +81,8 @@ int differ(const string a1[], int n1, const string a2[], int n2) {
 }
 
 int subsequence(const string a1[], int n1, const string a2[], int n2) {
-	if (n1 <=0 || n2 <=0)return -1;
+	if (n1 <= 0||n2<0 )return -1;
+	if (n2 == 0)return 0;
 	if (n2 > n1)return -1;
 	int pos = -1;
 	for (int z = 0; z < n1; z++) {
@@ -110,7 +112,7 @@ int lookupAny(const string a1[], int n1, const string a2[], int n2) {
 int separate(string a[], int n, string separator) {
 	if (n < 0)return -1;
 	if (n == 0)return 0;
-	for(int k=0; k<n; k++){
+	for (int k = 0; k < n; k++) {
 		if (a[k] < separator) {
 			string buf = a[k];
 			for (int z = k - 1; z >= 0; z--)
@@ -120,328 +122,287 @@ int separate(string a[], int n, string separator) {
 	}
 	int pos;
 	for (pos = 0; pos < n; pos++)
-		if (a[pos] >=separator)break;
+		if (a[pos] >= separator)break;
 	return pos;
 }
+string c[6] = {
+	"alpha", "beta", "beta", "delta", "gamma", "gamma"
+};
 
-void testAppendToAll()
+bool separatecheck(const string a[], int n, int p, string separator)
 {
-	string blanksAndMore[] = { "", "asdf", "!" };
-	string blanksAndMoreAns[] = { "!!!!!", "asdf!!!!!", "!!!!!!" };
-	assert(appendToAll(blanksAndMore, 3, "!!!!!") == 3);
-	for (int k = 0; k < 3; k++)
-	{
-		assert(blanksAndMore[k] == blanksAndMoreAns[k]); 
-	}
-
-	string bounds[] = { "a", "b", "c", "d" };
-	string boundsAns[] = { "a123z", "b123z", "c", "d" };
-	assert(appendToAll(bounds, 2, "123z") == 2);
-	for (int k = 0; k < 4; k++)
-	{
-		assert(bounds[k] == boundsAns[k]); 
-	}
-
-	string hiThere[] = { "" };
-	assert(appendToAll(hiThere, -5, "asdf") == -1); //Illegal array size testing!
-
-	string a[5] = { "glenn", "carl", "carol", "rick", "" };
-	assert(appendToAll(a, -1, " ") == -1);
-	assert(appendToAll(a, 3, " ") == 3 && a[0] == "glenn " && a[4] == "");
-	assert(appendToAll(a, 0, "sup") == 0 && a[3] == "rick");
-	assert(appendToAll(a, 5, "hi") == 5 && a[3] == "rickhi");
-
-	cerr << "All tests for testAppendToAll() succeeded!" << endl;
+	for (int k = 0; k < p; k++)
+		if (a[k] >= separator)
+			return false;
+	for (; p < n && a[p] == separator; p++)
+		;
+	for (int k = p; k < n; k++)
+		if (a[k] <= separator)
+			return false;
+	string b[100];
+	copy(a, a + n, b);
+	sort(b, b + n);
+	return equal(b, b + n, c);
 }
 
-void testLookup()
+void testone(int n)
 {
-	string greetings[] = { "hi", "hello", "bonjour", "great to see you", "hello" };
-	assert(lookup(greetings, 5, "hello there") == -1); 
-	assert(lookup(greetings, 5, "Hello") == -1); 
-	assert(lookup(greetings, 5, "hello") == 1); 
-	assert(lookup(greetings, 0, "boo!") == -1); 
-	assert(lookup(greetings, 2, "bonjour") == -1); 
-	assert(lookup(greetings, -1, "bonjour") == -1); 
-
-	string h[8] = { "glenn", "carl", "carol", "rick", "", "maggie", "daryl", "rick" };
-	assert(lookup(h, 7, "maggie") == 5);            // regular
-	assert(lookup(h, 7, "carol") == 2);             // regular
-	assert(lookup(h, -1, "carol") == -1);           // n < 0
-	assert(lookup(h, 2, "carol") == -1);            // not in array
-	assert(lookup(h, 0, "carl") == -1);             // n = 0
-	cerr << "All tests for testLookup() succeeded!" << endl;
-}
-
-void testPositionOfMax()
-{
-	string inOrder[] = { "a", "b", "c", "d", "e" };
-	assert(positionOfMax(inOrder, 5) == 4); 
-	assert(positionOfMax(inOrder, 4) == 3); 
-
-	string backwardsOrder[] = { "e", "d", "c", "b", "a" };;
-	assert(positionOfMax(backwardsOrder, 5) == 0); 
-	assert(positionOfMax(backwardsOrder, 2) == 0); 
-
-	string randomOrder[] = { "great", "cool", "zillion", "ton", "massive", "zillion", "billion" };
-	assert(positionOfMax(randomOrder, 2) == 0); 
-	assert(positionOfMax(randomOrder, 7) == 2); 
-	assert(positionOfMax(randomOrder, -2) == -1); 
-
-	string h[8] = { "glenn", "carl", "carol", "rick", "", "maggie", "daryl", "rick" };
-
-	assert(positionOfMax(h, 7) == 3);       // regular
-	assert(positionOfMax(h, -1) == -1);     // negative n
-	assert(positionOfMax(h, 0) == -1);      // n = 0
-	assert(positionOfMax(h, 8) == 3);       // multiple of same string
+	const int N = 6;
 
 
-	cerr << "All tests for testPositionOfMax() succeeded!" << endl;
-}
+	string aa[1 + N + 1] = {
+		"", "alpha", "beta", "gamma", "gamma", "beta", "delta", ""
+	};
+	string* a = &aa[1];
+	string* z = aa;
+	a[-1].string::~string();
+	a[N].string::~string();
+	fill_n(reinterpret_cast<char*>(&a[-1]), sizeof(a[-1]), 0xEF);
+	fill_n(reinterpret_cast<char*>(&a[N]), sizeof(a[N]), 0xEF);
 
-void testRotateLeft()
-{
-	string alpha[] = { "a", "b", "c", "d", "e", "f" };
-	string alphaRotatedLeftOnA[] = { "b", "c", "d", "e", "f", "a" };
-	string alphaRotatedLeftOnC[] = { "a", "b", "d", "e", "f", "c" };
-	string alphaRotatedLeftOnF[] = { "a", "b", "c", "d", "e", "f" };
-	string alphaRotatedLeftOnCFour[] = { "a", "b", "d", "c", "e", "f" };
+	string b[N] = {
+		"alpha", "beta", "gamma", "delta", "beta", "delta"
+	};
 
-	assert(rotateLeft(alpha, 6, 0) == 0);
-	for (int k = 0; k < 6; k++)
+	string d[9] = {
+		"alpha", "beta",  "beta", "beta", "alpha",
+		"alpha", "delta", "beta", "beta"
+	};
+
+	switch (n)
 	{
-		assert(alpha[k] == alphaRotatedLeftOnA[k]); 
+	case  1: {
+		assert(appendToAll(z, -1, "rho") == -1 && a[0] == "alpha");
+	} break; case  2: {
+		assert(appendToAll(z, 0, "rho") == 0 && a[0] == "alpha");
+	} break; case  3: {
+		assert(appendToAll(a, 1, "rho") == 1 && a[0] == "alpharho" &&
+			a[1] == "beta");
+	} break; case  4: {
+		assert(appendToAll(a, 6, "rho") == 6 && a[0] == "alpharho" &&
+			a[1] == "betarho" && a[2] == "gammarho" &&
+			a[3] == "gammarho" && a[4] == "betarho" &&
+			a[5] == "deltarho");
+	} break; case  5: {
+		assert(lookup(z, -1, "alpha") == -1);
+	} break; case  6: {
+		assert(lookup(z, 0, "alpha") == -1);
+	} break; case  7: {
+		assert(lookup(a, 1, "alpha") == 0);
+	} break; case  8: {
+		assert(lookup(a, 6, "delta") == 5);
+	} break; case  9: {
+		assert(lookup(a, 6, "beta") == 1);
+	} break; case 10: {
+		assert(lookup(a, 6, "zeta") == -1);
+	} break; case 11: {
+		assert(positionOfMax(z, -1) == -1);
+	} break; case 12: {
+		assert(positionOfMax(z, 0) == -1);
+	} break; case 13: {
+		assert(positionOfMax(a, 1) == 0);
+	} break; case 14: {
+		assert(positionOfMax(a, 3) == 2);
+	} break; case 15: {
+		assert(positionOfMax(a, 6) == 2);
+	} break; case 16: {
+		assert(positionOfMax(a + 3, 3) == 0);
+	} break; case 17: {
+		a[0] = "";
+		a[1] = " ";
+		a[2] = "";
+		assert(positionOfMax(a, 3) == 1);
+	} break; case 18: {
+		assert(rotateLeft(z, -1, 0) == -1 &&
+			a[0] == "alpha" && a[1] == "beta");
+	} break; case 19: {
+		assert(rotateLeft(a, 6, -1) == -1 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 20: {
+		assert(rotateLeft(a, 6, 6) == -1 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 21: {
+		assert(rotateLeft(z, 0, 0) == -1 &&
+			a[0] == "alpha" && a[1] == "beta");
+	} break; case 22: {
+		assert(rotateLeft(a, 1, 0) == 0 &&
+			a[0] == "alpha" && a[1] == "beta");
+	} break; case 23: {
+		assert(rotateLeft(a, 6, 0) == 0 &&
+			a[0] == "beta" && a[1] == "gamma" && a[2] == "gamma" &&
+			a[3] == "beta" && a[4] == "delta" && a[5] == "alpha");
+	} break; case 24: {
+		assert(rotateLeft(a, 6, 5) == 5 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 25: {
+		assert(rotateLeft(a, 6, 3) == 3 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "beta" && a[4] == "delta" && a[5] == "gamma");
+	} break; case 26: {
+		assert(rotateLeft(a, 5, 3) == 3 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "beta" && a[4] == "gamma" && a[5] == "delta");
+	} break; case 27: {
+		assert(countRuns(z, -1) == -1);
+	} break; case 28: {
+		assert(countRuns(z, 0) == 0);
+	} break; case 29: {
+		assert(countRuns(a, 1) == 1);
+	} break; case 30: {
+		assert(countRuns(a, 3) == 3);
+	} break; case 31: {
+		assert(countRuns(a, 4) == 3);
+	} break; case 32: {
+		assert(countRuns(a + 2, 4) == 3);
+	} break; case 33: {
+		assert(countRuns(d, 9) == 5);
+	} break; case 34: {
+		assert(flip(z, -1) == -1 && a[0] == "alpha");
+	} break; case 35: {
+		assert(flip(z, 0) == 0 && a[0] == "alpha");
+	} break; case 36: {
+		assert(flip(a, 1) == 1 && a[0] == "alpha" &&
+			a[1] == "beta");
+	} break; case 37: {
+		assert(flip(a, 2) == 2 && a[0] == "beta" &&
+			a[1] == "alpha" && a[2] == "gamma");
+	} break; case 38: {
+		assert(flip(a, 5) == 5 && a[0] == "beta" &&
+			a[1] == "gamma" && a[2] == "gamma" && a[3] == "beta" &&
+			a[4] == "alpha" && a[5] == "delta");
+	} break; case 39: {
+		a[2] = "zeta";
+		assert(flip(a, 6) == 6 && a[0] == "delta" && a[1] == "beta" &&
+			a[2] == "gamma" && a[3] == "zeta" && a[4] == "beta" &&
+			a[5] == "alpha");
+	} break; case 40: {
+		assert(differ(z, -1, b, 6) == -1);
+	} break; case 41: {
+		assert(differ(a, 6, z, -1) == -1);
+	} break; case 42: {
+		assert(differ(z, 0, b, 0) == 0);
+	} break; case 43: {
+		assert(differ(a, 3, b, 3) == 3);
+	} break; case 44: {
+		assert(differ(a, 3, b, 2) == 2);
+	} break; case 45: {
+		assert(differ(a, 2, b, 3) == 2);
+	} break; case 46: {
+		assert(differ(a, 6, b, 6) == 3);
+	} break; case 47: {
+		assert(subsequence(z, -1, b, 6) == -1);
+	} break; case 48: {
+		assert(subsequence(a, 6, z, -1) == -1);
+	} break; case 49: {
+		assert(subsequence(z, 0, b, 6) == -1);
+	} break; case 50: {
+		assert(subsequence(a, 6, z, 0) == 0);
+	} break; case 51: {
+		assert(subsequence(a, 6, b, 1) == 0);
+	} break; case 52: {
+		assert(subsequence(a, 6, b + 4, 2) == 4);
+	} break; case 53: {
+		assert(subsequence(a, 6, b + 3, 1) == 5);
+	} break; case 54: {
+		assert(subsequence(a, 6, b + 3, 2) == -1);
+	} break; case 55: {
+		assert(subsequence(a, 6, b + 2, 2) == -1);
+	} break; case 56: {
+		assert(subsequence(a, 6, a, 6) == 0);
+	} break; case 57: {
+		assert(lookupAny(a, 6, z, -1) == -1);
+	} break; case 58: {
+		assert(lookupAny(z, -1, b, 6) == -1);
+	} break; case 59: {
+		assert(lookupAny(z, 0, b, 1) == -1);
+	} break; case 60: {
+		assert(lookupAny(a, 6, z, 0) == -1);
+	} break; case 61: {
+		assert(lookupAny(a, 1, b, 1) == 0);
+	} break; case 62: {
+		assert(lookupAny(a, 6, b + 3, 3) == 1);
+	} break; case 63: {
+		assert(lookupAny(a, 4, b + 3, 3) == 1);
+	} break; case 64: {
+		assert(lookupAny(a, 2, b + 2, 2) == -1);
+	} break; case 65: {
+		assert(separate(z, -1, "beta") == -1 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 66: {
+		assert(separate(z, 0, "beta") == 0 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 67: {
+		assert(separate(a, 1, "aaa") == 0 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 68: {
+		assert(separate(a, 1, "alpha") == 0 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 69: {
+		assert(separate(a, 1, "zeta") == 1 &&
+			a[0] == "alpha" && a[1] == "beta" && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 70: {
+		assert(separate(a, 2, "aaa") == 0 &&
+			separatecheck(a, 2, 0, "aaa") && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 71: {
+		assert(separate(a, 2, "alpha") == 0 &&
+			separatecheck(a, 2, 0, "alpha") && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 72: {
+		assert(separate(a, 2, "beta") == 1 &&
+			separatecheck(a, 2, 1, "beta") && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 73: {
+		assert(separate(a, 2, "zeta") == 2 &&
+			separatecheck(a, 2, 2, "zeta") && a[2] == "gamma" &&
+			a[3] == "gamma" && a[4] == "beta" && a[5] == "delta");
+	} break; case 74: {
+		assert(separate(a, 6, "aaa") == 0 && separatecheck(a, 6, 0, "aaa"));
+	} break; case 75: {
+		assert(separate(a, 6, "alpha") == 0 &&
+			separatecheck(a, 6, 0, "alpha"));
+	} break; case 76: {
+		assert(separate(a, 6, "beta") == 1&&
+			separatecheck(a, 6, 1, "beta"));
+	} break; case 77: {
+		assert(separate(a, 6, "delta") == 3 &&
+			separatecheck(a, 6, 3, "delta"));
+	} break; case 78: {
+		assert(separate(a, 6, "gamma") == 4 &&
+			separatecheck(a, 6, 4, "gamma"));
+	} break; case 79: {
+		assert(separate(a, 6, "zeta") == 6 &&
+			separatecheck(a, 6, 6, "zeta"));
+	} break; case 80: {
+		a[2] = "mu";
+		c[5] = "mu";
+		assert(separate(a, 6, "mu") == 5 && separatecheck(a, 6, 5, "mu"));
+	} break; case 81: {
+		assert(separate(a, 6, "chi") == 3 && separatecheck(a, 6, 3, "chi"));
+	} break; case 82: {
+		// This case tested whether rotateLeft used an extra array
+	} break; case 83: {
+		// This case tested whether flip used an extra array
+	} break; case 84: {
+		// This case tested whether separate used an extra array
+	} break;
 	}
 
-	string alpha2[] = { "a", "b", "c", "d", "e", "f" };
-	assert(rotateLeft(alpha2, 6, 2) == 2);
-	for (int k = 0; k < 6; k++)
-	{
-		assert(alpha2[k] == alphaRotatedLeftOnC[k]); 
-	}
-
-	string alpha3[] = { "a", "b", "c", "d", "e", "f" };
-	assert(rotateLeft(alpha3, 6, 5) == 5);
-	for (int k = 0; k < 6; k++)
-	{
-		assert(alpha3[k] == alphaRotatedLeftOnF[k]); 
-	}
-
-	string alpha4[] = { "a", "b", "c", "d", "e", "f" };
-	assert(rotateLeft(alpha4, 4, 2) == 2); 
-	for (int k = 0; k < 6; k++)
-	{
-		assert(alpha4[k] == alphaRotatedLeftOnCFour[k]); 
-	}
-
-
-	string blank[] = { "" };
-	assert(rotateLeft(blank, 0, 0) == -1); 
-	assert(rotateLeft(blank, -5, 0) == -1); 
-	assert(rotateLeft(blank, 1, 0) == 0); 
-	assert(blank[0] == "");
-
-	string blankAlpha[] = { "a", "", "b", "c" };
-	string blankAlphaAnswer[] = { "a", "b", "c", "" };
-	assert(rotateLeft(blankAlpha, 0, 0) == -1); 
-	assert(rotateLeft(blankAlpha, -5, 0) == -1); 
-	assert(rotateLeft(blankAlpha, 4, 1) == 1);
-
-	for (int k = 0; k < 4; k++)
-	{
-		assert(blankAlpha[k] == blankAlphaAnswer[k]); 
-	}
-
-	string b[5] = { "one", "two", "three", "four", "five" };
-	assert(rotateLeft(b, -1, 2) == -1);                                         // negative n
-	assert(rotateLeft(b, 4, -1) == -1);                                         // negative pos
-	assert(rotateLeft(b, 0, 0) == -1 && b[2] == "three" && b[4] == "five");     // n = 0, pos = 0
-	assert(rotateLeft(b, 0, 2) == -1 && b[2] == "three" && b[4] == "five");     // pos > n
-	assert(rotateLeft(b, 2, 0) == 0 && b[0] == "two" && b[1] == "one");         // regular - first pos
-	assert(rotateLeft(b, 2, 2) == -1);                                          // n = pos
-
-	b[0] = "one"; b[1] = "two"; b[2] = "three"; b[3] = "four"; b[4] = "five";
-
-	assert(rotateLeft(b, 5, 4) == 4 && b[2] == "three" && b[4] == "five");      // regular - last pos
-	assert(rotateLeft(b, 5, 2) == 2 && b[2] == "four" && b[4] == "three");      // regular
-
-	cerr << "All tests for rotateLeft() succeeded!" << endl;
+	new (&a[-1]) string;
+	new (&a[N]) string;
 }
 
-void testDiffer()
-{
-	string blank[] = { "" };
-	assert(differ(blank, 1, blank, 1) == 1); 
-
-	string test1[] = { "hello", "no thanks", "nice to meet you" };
-	string test2[] = { "hello", "NO THANKS", "nice to meet you" };
-
-	assert(differ(test1, 1, test2, 1) == 1); 
-	assert(differ(test1, 2, test2, 1) == 1); 
-	assert(differ(test1, 1, test2, 2) == 1); 
-	assert(differ(test1, 2, test2, 2) == 1); 
-	assert(differ(test1, 3, test2, 3) == 1);
-
-	string stuff1[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff2[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff3[] = { "animals", "bagels", "camels", "dolphins", "nothing" };
-	assert(differ(stuff1, 1, stuff2, 1) == 1); //since array is entirely equal to itself, the "smaller" n should be given
-	assert(differ(stuff1, 3, stuff2, 1) == 1); //verifies that an irrelevant change in size makes no difference
-	assert(differ(stuff1, 5, stuff2, 5) == 5); //since the sub-array is entirely equal, the "smaller" n should be given: 5
-	assert(differ(stuff1, 3, stuff2, 5) == 3); //since the sub-array is entirely equal, the "smaller" n should be given: 3
-
-	assert(differ(stuff1, 3, stuff3, 5) == 3); //one array has run out, so its n is returned
-	assert(differ(stuff1, 5, stuff3, 5) == 4); //the fifth element is different
-	assert(differ(stuff1, 3, stuff3, 3) == 3); //since we do not reach the last element, we are told the arrays match
-
-	cerr << "All tests for differ() succeeded!" << endl;
-}
-
-void testSubsequence()
-{
-	string blank[] = { "" };
-	assert(subsequence(blank, 1, blank, 1) == 0); 
-
-	string test1[] = { "hello", "no thanks", "nice to meet you" };
-	string test2[] = { "hello", "NO THANKS", "nice to meet you" };
-	assert(subsequence(test1, 3, test2, 3) == -1); 
-	assert(subsequence(test1, 1, test2, 1) == 0); 
-	assert(subsequence(test1, 2, test2, 1) == 0); 
-	assert(subsequence(test1, 1, test2, 2) == -1); 
-
-	string stuff1[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff2[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff3[] = { "animals", "bagels", "camels", "dolphins", "nothing" };
-	assert(subsequence(stuff1, 1, stuff2, 1) == 0); 
-	assert(subsequence(stuff1, 5, stuff2, 2) == 0); 
-	assert(subsequence(stuff1, 5, stuff3, 5) == -1);
-	assert(subsequence(stuff1, 3, stuff3, 3) == 0);
-
-	string sub1[] = { "here", "there", "nowhere", "somewhere", "anywhere" };
-	string sub2[] = { "there", "nowhere", "somewhere", "anywhere" };
-	assert(subsequence(sub1, 5, sub2, 4) == 1);
-	assert(subsequence(sub1, 4, sub2, 4) == -1); 
-	assert(subsequence(sub1, 4, sub2, 3) == 1); 
-	assert(subsequence(sub1, 2, sub2, 1) == 1); 
-	cerr << "All tests for subsequence() succeeded!" << endl;
-}
-
-void testLookupAny()
-{
-	string blank[] = { "" };
-	assert(lookupAny(blank, 1, blank, 1) == 0); 
-
-	string test1[] = { "hello", "no thanks", "nice to meet you" };
-	string test2[] = { "hello", "NO THANKS", "nice to meet you" };
-	assert(lookupAny(test1, 1, test2, 1) == 0); 
-	assert(lookupAny(test1, 3, test2, 3) == 0); 
-
-	string test3[] = { "NO THANKS", "nice to meet you" };
-	string test4[] = { "hello", "nice to meet you" };
-	assert(lookupAny(test3, 2, test4, 2) == 1); 
-	assert(lookupAny(test3, 1, test4, 1) == -1); 
-	assert(lookupAny(test3, 2, test4, 1) == -1); 
-	assert(lookupAny(test3, 1, test4, 2) == -1);
-	assert(lookupAny(test1, 3, test3, 1) == -1);
-	assert(lookupAny(test1, 3, test3, 2) == 2); 
-
-	string stuff1[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff2[] = { "earwax", "camels" };
-	string stuff3[] = { "animals", "bagels", "camels", "dolphins", "nothing" };
-	assert(lookupAny(stuff1, 4, stuff2, 1) == -1); 
-	assert(lookupAny(stuff1, 5, stuff2, 1) == 4); 
-	assert(lookupAny(stuff1, 5, stuff2, 2) == 2); 
-	assert(lookupAny(stuff1, 3, stuff2, 2) == 2); 
-
-	string sub1[] = { "here", "there", "nowhere", "somewhere", "anywhere" };
-	string sub2[] = { "there", "nowhere", "somewhere", "anywhere" };
-	assert(lookupAny(sub1, 5, sub2, 4) == 1); 
-	assert(lookupAny(sub1, 5, sub2, 1) == 1); 
-
-	cerr << "All tests for lookupAny() succeeded!" << endl;
-}
-
-void testseparate()
-{
-	string stuffAns[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff1[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff2[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff3[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff4[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-	string stuff5[] = { "animals", "bagels", "camels", "dolphins", "earwax" };
-
-	assert(separate(stuff1, 5, "camels") == 2);
-	assert(separate(stuff2, 5, "animals") == 0);
-	assert(separate(stuff3, 5, "az") == 1);
-	assert(separate(stuff4, 5, "ear") == 4); 
-	assert(separate(stuff5, 5, "ez") == 5); 
-
-
-
-
-
-	string stuff6[] = { "c", "q", "d", "b", "a", "z" };
-	string stuff7[] = { "c", "q", "d", "b", "a", "z" };
-
-	assert(separate(stuff6, 6, "ce") == 3); 
-
+int main() {
+	for (int a = 1; a <=84; a++)
+		testone(a);
 	
-
-	assert(separate(stuff7, 3, "darnit") == 2);
-
-	
-	cerr << "All tests for separate() succeeded!" << endl;
 }
 
-void testFlip()
-{
-	string blank[] = { "" };
-	assert(flip(blank, 0) == 0); 
-	assert(flip(blank, -5) == -1); 
-	assert(flip(blank, 1) == 1); 
-	assert(blank[0] == ""); 
-
-	string alpha[] = { "a", "b", "c", "d" };
-	string alphaFlipped[] = { "d", "c", "b", "a" };
-	assert(flip(alpha, 4) == 4); 
-
-	for (int k = 0; k < 4; k++)
-	{
-		assert(alpha[k] == alphaFlipped[k]); 
-	}
-
-	string random[] = { "apple", "cookie", "", "pie", "123" };
-	string randomFlipped[] = { "123", "pie", "", "cookie", "apple" };
-	assert(flip(random, 5) == 5);
-
-	for (int k = 0; k < 5; k++)
-	{
-		assert(random[k] == randomFlipped[k]); 
-	}
-
-	string subRandom[] = { "apple", "cookie", "", "pie", "123" };
-	string subRandomFlipped[] = { "", "cookie", "apple", "pie", "123" };
-	assert(flip(subRandom, 3) == 3); 
-
-	for (int k = 0; k < 5; k++)
-	{
-		assert(subRandom[k] == subRandomFlipped[k]); 
-	}
-
-	cerr << "All tests for flip() succeeded!" << endl;
-}
-
-int main(){
-	
-	testAppendToAll();
-	testLookup();
-	testPositionOfMax();
-	testRotateLeft();
-	testDiffer();
-	testSubsequence();
-	testLookup();
-	testseparate();
-	testFlip();
-
-	return 0;
-}
