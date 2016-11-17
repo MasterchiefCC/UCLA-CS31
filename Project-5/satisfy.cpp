@@ -1,7 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstring>
 #include <cctype>
 #include <cassert>
+using namespace std;
 
 const int MAX_WORD_LENGTH = 20;
 const int MAX_DOC_LENGTH = 200;
@@ -54,7 +56,7 @@ int normalizeRules(char word1[][MAX_WORD_LENGTH + 1],char word2[][MAX_WORD_LENGT
 	//above, change all char to lower case and erase rules distance is not positive and contain not alpha char 
 		for (int a = 0; a < nRules; a++) {//Checks for repeat rules and removes repeats
 			for(int k=0; k<nRules; k++){
-				if ((!strcmp(word1[a], word2[k]) && !strcmp(word1[k], word2[a])) || (a != k && !strcmp(word1[a], word1[k]) && !strcmp(word2[a], word2[k]))) {
+				if ((a != k&&!strcmp(word1[a], word2[k]) && !strcmp(word2[a], word1[k])) || (a != k && !strcmp(word1[a], word1[k]) && !strcmp(word2[a], word2[k]))) {
 					if (distance[a] >= distance[k]) {
 						remove(word1, word2, distance, nRules, k);
 						break;
@@ -110,10 +112,10 @@ int calculateSatisfaction(const char word1[][MAX_WORD_LENGTH + 1],const char wor
 	}
 
 int main() {
-	const int TEST2_NRULES = 7;
-	char test2w1[TEST2_NRULES][MAX_WORD_LENGTH + 1] = { "mad",        "robot", "NEFARIOUS", "half-",          "robot",        "plot",           "have" };
-	char test2w2[TEST2_NRULES][MAX_WORD_LENGTH + 1] = { "scientist", "robot", "PLOT",            "assistant",    "deranged",  "Nefarious", "mad" };
-	int test2dist[TEST2_NRULES] = { 2, 4, 1 ,3,2,1,13 };
+	const int TEST2_NRULES = 2;
+	char test2w1[TEST2_NRULES][MAX_WORD_LENGTH + 1] = {  "robot",  "" };
+	char test2w2[TEST2_NRULES][MAX_WORD_LENGTH + 1] = {  "",  "robot" };
+	int test2dist[TEST2_NRULES] = { 1,1 };
 
 	int a = normalizeRules(test2w1, test2w2, test2dist, TEST2_NRULES);
 
@@ -140,8 +142,9 @@ int main() {
 		"deranged deranged robot deranged robot robot") == 1);
 	assert(calculateSatisfaction(test1w1, test1w2, test1dist, TEST1_NRULES,
 		"That scientist said two mad scientists suffer from deranged-robot fever.") == 0);
-	
-	printf("%d\n", a);
+
+	cerr << a << endl;
+
 
 
 	return 0;

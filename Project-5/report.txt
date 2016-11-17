@@ -1,0 +1,37 @@
+a
+I didn't encounter any problem and obstacles when I worte down the program.
+
+b
+function remove
+use a loop to remove certain in word1 word2 and distance
+
+function normlizeRules
+If n is not positive, return 0.
+Every word is at least one letter long
+if not use function remove to remove this postion
+empty string
+if is, use function remove to remove this postion
+check each char in word1 is alpha, 
+if there is nor alpha char, use function to remove this postion
+if all char are alpha, change to lower case
+end of loop
+Checks for repeat rules and removes repeats
+remove the postion contain smaller distance
+return valid rule
+
+
+function calculateSatisfaction
+If rule is not positive, return 0.
+put every word in document into a array
+that array is in a two dimentsion array with height 200 and longth 200
+loop check each rule use that two dimentsion array
+if match with the rule open a switch and break from inner loop
+return matchedrule
+
+c
+char word1[nRules][MAX_WORD_LENGTH + 1] = { "UCLA", "USC", "Stanford", "Cal", "uSc", "USC", "UCLA", "USC", "UCSD", "", "USC" };
+	char word2[nRules][MAX_WORD_LENGTH + 1] = { "UCLA", "Yale", "Oxford", "UCLA", "USC", "USC", "AVR", "Yale", "UCSB", "a", "b" };
+	//char word2[nRules][MAX_WORD_LENGTH + 1] = { "USC", "UCLA", "Stanford", "Cal", "UCla", "ucla", "Usc", "USC", "UCSB", "", "UCLA" };
+
+	char document[MAX_DOC_LENGTH] = "UCLA beats USC in YALE, CALL oxford and STanford7, UW cuz# AVR is UCLAsl !!! UCasdLA!!";
+	//char document[MAX_DOC_LENGTH] = "UCLA UCLnA @stanford7 oxford873-(1,! AVR!! UW USC YAle USC yale USc yale usc yale UCSB h hf UCSD";
