@@ -46,3 +46,17 @@ for(int a=0; a<nTimes; a++)x.move(d);
 void report(target&x){
 cout<<"There' s a target at position<<x.position()<< endl;
 }
+
+void playgame(){
+Target*target[100];
+if(///)
+addTarget(targets,nTargets,3);
+...
+}
+
+void addTarget(target*ta[], int howManyNewOnes){
+for(int k=0; k<howManynewone; k++){
+ta[nt]=new Target;
+nt++;
+}
+}
