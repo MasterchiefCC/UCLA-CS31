@@ -157,7 +157,7 @@ void clearScreen();
 bool outOfGrid(const Arena& a, int r, int c);
 bool isPoison(const Arena& a, int r, int c);
 int numRatsAround(const Arena& a, int r, int c);
-
+void zzz(int a, int&r, int &c);
 ///////////////////////////////////////////////////////////////////////////
 //  Rat implementation
 ///////////////////////////////////////////////////////////////////////////
@@ -377,7 +377,10 @@ void Arena::display(string msg) const
 	char displayGrid[MAXROWS][MAXCOLS];
 	int r, c;
 
-	memset(displayGrid, 0, sizeof(displayGrid));
+	for (int z = 0; z < MAXROWS; z++) {
+		for (int k = 0; k < MAXCOLS; k++)
+			displayGrid[z][k] = 0;
+	}
 	// Fill displayGrid with dots (empty) and stars (poison pellets)
 	for (r = 1; r <= rows(); r++)
 		for (c = 1; c <= cols(); c++)
@@ -656,56 +659,45 @@ bool attemptMove(const Arena& a, int dir, int& r, int& c)
 
 bool recommendMove(const Arena& a, int r, int c, int& bestDir)
 {
-	int robotsInDir[5]; //find number of robots around each position in all directions
+	int z[4];
 
-						//North:
-	if (!outOfGrid(a, r - 1, c) && !isPoison(a, r - 1, c) && a.numberOfRatsAt(r - 1, c) < 1) //cannot be occupied, out of grid, or have a wall
-		robotsInDir[0] = numRatsAround(a, r - 1, c); //set corresponding element in array to number of robots around it
-	else
-		robotsInDir[0] = 99; //arbitrary number showing that that position is out of grid/in wall
+	for (int t = 0; t < 4; t++)z[t] = 0;
 
-							 //East:
-	if (!outOfGrid(a, r, c + 1) && !isPoison(a, r, c + 1) && a.numberOfRatsAt(r, c + 1) < 1) //cannot be occupied, out of grid, or have a wall
-		robotsInDir[1] = numRatsAround(a, r, c + 1); //set corresponding element in array to number of robots around it
-	else
-		robotsInDir[1] = 99; //arbitrary number showing that that position is out of grid/in wall
+	if (outOfGrid(a, r, c + 1))
+		z[1] = 1; 
+	if (!outOfGrid(a, r, c + 1) && a.numberOfRatsAt(r, c + 1))
+		z[1] = 2;//E
 
-							 //South:
-	if (!outOfGrid(a, r + 1, c) && !isPoison(a, r + 1, c) && a.numberOfRatsAt(r + 1, c) < 1) //cannot be occupied, out of grid, or have a wall
-		robotsInDir[2] = numRatsAround(a, r + 1, c); //set corresponding element in array to number of robots around it
-	else
-		robotsInDir[2] = 99; //arbitrary number showing that that position is out of grid/in wall
+	if (outOfGrid(a, r, c - 1))
+		z[3] = 1;
+	if (!outOfGrid(a, r, c - 1) && a.numberOfRatsAt(r, c - 1))
+		z[3]=2;//W
 
-							 //West:
-	if (!outOfGrid(a, r, c - 1) && !isPoison(a, r, c - 1) && a.numberOfRatsAt(r, c - 1) < 1) //cannot be occupied, out of grid, or have a wall
-		robotsInDir[3] = numRatsAround(a, r, c - 1); //set corresponding element in array to number of robots around it
-	else
-		robotsInDir[3] = 99; //arbitrary number showing that that position is out of grid/in wall
+	if (outOfGrid(a, r-1, c )) 
+		z[0] = 1; 
+	if (!outOfGrid(a, r-1, c ) && a.numberOfRatsAt(r-1, c ))
+		z[0]=2; //N
 
-	robotsInDir[4] = numRatsAround(a, r, c); //set element in array to number of robots around current position
+	if (outOfGrid(a, r+1, c)) 
+		z[2] = 1; 
+	if (!outOfGrid(a, r+1, c ) && a.numberOfRatsAt(r+1, c))
+		z[2]=2; //S
 
-	int minRobots = robotsInDir[0]; //set counter for minimum number of robots around a certain position
-	int index = 0; //set an index to go through all position positions
-	int minIndex = 0; //set an index that corresponds to the direction with least robots around it
+	int ok = 1;
+	for (int i = 0; i < 4; i++) if (z[i]==2){ ok = 0; break; }
+	if (ok) return 0;
 
-	while (index < NUMDIRS + 1)
-	{
-		if (robotsInDir[index] <= minRobots)
-		{
-			minRobots = robotsInDir[index]; //determine direction surrounded by fewest robots
-			minIndex = index;
+	for (int i = 0; i < 4; i++) {
+		if (z[i] == 0) {
+			int rr = r, cc = c;
+			zzz(i, rr, cc);
+			if (!numRatsAround(a, rr, cc)) {bestDir = i; return 1;}
 		}
-		index++;
 	}
 
-	if (minIndex == 4) //standing would be the best option, as it has the least numRatsAround
-		return false; //return false so that player does not move
-	else
-	{
-		bestDir = minIndex; //set best direction to the direction which has the last numRatsAround
-		return true; //return true, since player will move
-	}
+	return 0;
 
+}
 				   // Your replacement implementation should do something intelligent.
 				   // You don't have to be any smarter than the following, although
 				   // you can if you want to be:  If staying put runs the risk of a
@@ -724,17 +716,18 @@ bool recommendMove(const Arena& a, int r, int c, int& bestDir)
 				   // rat might be poisoned and thus sometimes less dangerous than one
 				   // that is not.  That requires a more sophisticated analysis that
 				   // we're not asking you to do.
-}
+
 
 ///////////////////////////////////////////////////////////////////////////
 // main()
 ///////////////////////////////////////////////////////////////////////////
 
 int main()
+
 {
 	// Create a game
 	// Use this instead to create a mini-game:   Game g(3, 5, 2);
-	Game g(3,5,2);
+	Game g(10,20,40);
 
 	// Play the game
 	g.play();
@@ -809,4 +802,11 @@ int numRatsAround(const Arena& a, int r, int c)
 		count += a.numberOfRatsAt(r, c + 1);
 
 	return count; //return the total number of robots surrounding the position
+}
+
+void zzz(int a, int&r, int &c) {
+	if (a == 0)r = r - 1;
+	if (a == 1)c = c + 1;
+	if (a == 2)r = r - 1;
+	if (a == 3)c = c - 1;
 }
